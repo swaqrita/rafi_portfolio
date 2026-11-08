@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<!--
+  NOTE: The right-click, text-selection, DevTools-shortcut and image-drag blocks in this file
+  are deterrents only, not absolute protection. Anyone determined can still copy what a browser displays.
+  For real protection, upload watermarked, web-sized images only.
+-->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photographer &amp; Photo Editor | Portfolio</title>
+<meta name="description" content="Portfolio, before-and-after retouching examples, pricing and booking for a photographer and photo editor.">
+<script>
+  // Apply saved theme before paint to avoid a flash
+  try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+:root{
+  --bg:#111418; --surface:#1a1f26; --surface-2:#232a33; --text:#f1ece4; --muted:#a9b0ba;
+  --accent:#e2b155; --accent-ink:#1b1405; --line:#2f3844; --shadow:0 12px 40px rgba(0,0,0,.45);
+  --radius:14px;
+}
+[data-theme="light"]{
+  --bg:#f7f4ee; --surface:#ffffff; --surface-2:#efe9de; --text:#1c1a17; --muted:#575149;
+  --accent:#9a6a0c; --accent-ink:#ffffff; --line:#ddd4c4; --shadow:0 12px 32px rgba(60,40,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;
+  -webkit-user-select:none;user-select:none;transition:background .3s,color .3s}
+input,textarea{-webkit-user-select:text;user-select:text}
+img{max-width:100%;display:block;-webkit-user-drag:none;user-drag:none}
+a{color:inherit}
+h1,h2,h3{letter-spacing:-.03em;line-height:1.05}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{width:min(1180px,100% - 2.5rem);margin-inline:auto}
+section{padding:clamp(3.5rem,8vw,6.5rem) 0}
+.sec-head{max-width:620px;margin-bottom:2.2rem}
+.sec-head h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:.7rem}
+.sec-head p{color:var(--muted)}
+
+/* Header */
+header{position:fixed;inset:0 0 auto 0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;letter-spacing:-.04em;text-decoration:none;font-size:1.15rem}
+nav ul{display:flex;gap:1.8rem;list-style:none;align-items:center}
+nav a{text-decoration:none;color:var(--muted);font-weight:500;transition:color .2s}
+nav a:hover{color:var(--text)}
+.tools{display:flex;gap:.5rem;align-items:center}
+.icon-btn{background:none;border:1px solid var(--line);color:var(--text);width:42px;height:42px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.icon-btn:hover{border-color:var(--accent)}
+.icon-btn svg{width:20px;height:20px}
+#menuBtn{display:none}
+.sun{display:none}
+[data-theme="light"] .sun{display:block}
+[data-theme="light"] .moon{display:none}
+@media (max-width:819px){
+  #menuBtn{display:grid}
+  nav{position:absolute;top:64px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .3s}
+  nav.open{max-height:320px}
+  nav ul{flex-direction:column;align-items:flex-start;gap:0;padding:.5rem 1.25rem 1rem}
+  nav li{width:100%}
+  nav a{display:block;padding:.8rem 0;font-size:1.1rem}
+}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding-top:96px;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 80% 20%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 55%),var(--bg)}
+.hero h1{font-size:clamp(3.4rem,13vw,10rem);font-weight:900;letter-spacing:-.06em;line-height:.9}
+.hero .tag{font-size:clamp(1.1rem,2.6vw,1.6rem);color:var(--accent);margin:1.4rem 0 .8rem;font-weight:600}
+.hero p{color:var(--muted);max-width:46ch;margin-bottom:2rem}
+.btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.9rem 1.7rem;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--accent);cursor:pointer;font:inherit;font-weight:700;transition:transform .2s,background .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:none;color:var(--text)}
+
+/* About */
+.about{display:grid;gap:2.5rem;grid-template-columns:1fr;align-items:center}
+.about h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:1rem}
+.about p{color:var(--muted);max-width:52ch}
+@media (min-width:900px){.about{grid-template-columns:1fr 1.2fr;gap:4rem}}
+
+/* Compare slider */
+.cmp{position:relative;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:var(--surface-2);box-shadow:var(--shadow);touch-action:pan-y}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.cmp .before{clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
+.cmp .line{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 8px rgba(0,0,0,.5);pointer-events:none}
+.cmp .knob{position:absolute;top:50%;left:var(--pos,50%);width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:#fff;color:#111;display:grid;place-items:center;font-size:.85rem;font-weight:800;box-shadow:0 2px 10px rgba(0,0,0,.5);pointer-events:none}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;-webkit-appearance:none;appearance:none}
+.cmp input:focus-visible~.knob{outline:3px solid var(--accent);outline-offset:3px}
+.badge{position:absolute;top:.7rem;padding:.2rem .6rem;border-radius:999px;font-size:.75rem;font-weight:700;background:rgba(0,0,0,.7);color:#fff;pointer-events:none}
+.badge.b{left:.7rem}.badge.a{right:.7rem}
+.note{color:var(--muted);margin-bottom:1.5rem;font-size:.95rem}
+.grid{display:grid;gap:1.4rem;grid-template-columns:1fr}
+@media (min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1300px){.grid{grid-template-columns:repeat(4,1fr)}}
+.grid figure figcaption{font-size:.85rem;color:var(--muted);margin-top:.5rem}
+
+/* Pricing */
+.plans{display:grid;gap:1.4rem;grid-template-columns:1fr}
+@media (min-width:860px){.plans{grid-template-columns:repeat(3,1fr)}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:2rem;display:flex;flex-direction:column;gap:1rem}
+.plan.pop{border-color:var(--accent);box-shadow:var(--shadow)}
+.plan h3{font-size:1.6rem}
+.plan p{color:var(--muted)}
+.price{display:flex;gap:.7rem;align-items:baseline;flex-wrap:wrap;font-size:1.9rem;font-weight:800;letter-spacing:-.03em}
+.price small{font-size:1.2rem;color:var(--muted);font-weight:600}
+.plan ul{list-style:none;color:var(--muted);flex:1}
+.plan li{padding:.35rem 0;border-top:1px solid var(--line)}
+.fx{margin-top:1.5rem;color:var(--muted);font-size:.9rem}
+
+/* Contact */
+.contact{display:grid;gap:2.5rem;grid-template-columns:1fr}
+@media (min-width:860px){.contact{grid-template-columns:1fr 1.2fr;gap:4rem}}
+.contact address{font-style:normal;display:grid;gap:.6rem;margin:1.2rem 0}
+.contact address a{color:var(--accent)}
+form{display:grid;gap:1rem;background:var(--surface);border:1px solid var(--line);padding:1.6rem;border-radius:var(--radius)}
+label{font-weight:600;font-size:.95rem;display:grid;gap:.35rem}
+input[type=text],input[type=email],textarea{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;width:100%}
+textarea{min-height:130px;resize:vertical}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:2.5rem 0;color:var(--muted);font-size:.92rem}
+.foot{display:grid;gap:1rem}
+footer ul{list-style:none;display:flex;gap:1.3rem;flex-wrap:wrap}
+@media (min-width:760px){.foot{grid-template-columns:1fr auto;align-items:center}}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#home">[Your Name]</a>
+    <div class="tools">
+      <nav id="nav" aria-label="Main">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between dark and light mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home" aria-labelledby="hero-title">
+    <div class="wrap">
+      <h1 id="hero-title">[Your Name]</h1>
+      <p class="tag">Photographer &amp; Photo Editor</p>
+      <p>I photograph people, places and moments as they are, then edit them until they look the way they felt.</p>
+      <div class="btns">
+        <a class="btn primary" href="#portfolio">View Portfolio</a>
+        <a class="btn ghost" href="#pricing">See Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-title">
+    <div class="wrap about">
+      <div>
+        <h2 id="about-title">Careful capture. Honest edits.</h2>
+        <p>I shoot portraits, events and travel, and I retouch for other photographers too. Every edit starts from the raw file: balanced color, clean skin and light that guides the eye, never a heavy filter. Drag the divider to see what a finished edit changes.</p>
+      </div>
+      <div id="featured"></div>
+    </div>
+  </section>
+
+  <section id="portfolio" aria-labelledby="port-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="port-title">My Photos</h2>
+        <p>Twenty before-and-after edits, from untouched raw files to final delivery.</p>
+      </div>
+      <p class="note">Drag the slider to see the edit.</p>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="pricing" aria-labelledby="price-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="price-title">Pricing</h2>
+        <p>Clear packages with no hidden fees. Prices are shown in both Taka and US dollars.</p>
+      </div>
+      <div class="plans">
+        <article class="plan">
+          <h3>Basic</h3>
+          <p>A short session for portraits or small products.</p>
+          <div class="price">৳ 6,000 <small>/ $50</small></div>
+          <ul><li>1 hour shoot</li><li>10 edited photos</li><li>Online gallery</li></ul>
+          <a class="btn ghost" href="#contact">Book Now</a>
+        </article>
+        <article class="plan pop">
+          <h3>Standard</h3>
+          <p>The best fit for events, couples and families.</p>
+          <div class="price">৳ 12,000 <small>/ $100</small></div>
+          <ul><li>3 hour shoot</li><li>30 edited photos</li><li>Colour grading and retouching</li><li>Online gallery</li></ul>
+          <a class="btn primary" href="#contact">Book Now</a>
+        </article>
+        <article class="plan">
+          <h3>Premium</h3>
+          <p>Full-day coverage with a complete edit.</p>
+          <div class="price">৳ 24,000 <small>/ $200</small></div>
+          <ul><li>Full-day shoot</li><li>80 edited photos</li><li>Advanced retouching</li><li>Priority delivery in 5 days</li></ul>
+          <a class="btn ghost" href="#contact">Book Now</a>
+        </article>
+      </div>
+      <p class="fx">Conversion used: 1 USD ≈ 120 BDT (fixed rate). Final invoices are agreed in your preferred currency.</p>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="wrap contact">
+      <div>
+        <div class="sec-head" style="margin-bottom:0">
+          <h2 id="contact-title">Contact</h2>
+          <p>Tell me about your shoot or the photos you need edited. I reply within 24 hours.</p>
+        </div>
+        <address>
+          <span>Email: <a href="mailto:hello@example.com">hello@example.com</a></span>
+          <span>Phone: <a href="tel:+8801000000000">+880 1000-000000</a></span>
+          <span><a href="#" aria-label="Instagram profile">Instagram</a> · <a href="#" aria-label="Behance profile">Behance</a></span>
+        </address>
+      </div>
+      <form id="form" novalidate>
+        <label>Name <input type="text" name="name" autocomplete="name" required></label>
+        <label>Email <input type="email" name="email" autocomplete="email" required></label>
+        <label>Message <textarea name="message" required></textarea></label>
+        <button class="btn primary" type="submit">Send message</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <p>© 2026 [Your Name]. All rights reserved. Unauthorized use prohibited.</p>
+      <p>Built for GitHub Pages.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul><li><a href="#home">Home</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#contact">Contact</a></li></ul>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ===== Photo data =====
+     REPLACE IMAGES HERE: for each pair, change `before` (raw) and `after` (edited)
+     to your own image URLs or relative paths (e.g. "photos/01-raw.jpg").
+     Pairs 1-20 below use picsum.photos placeholders. */
+  var photos = [];
+  for (var i = 1; i <= 20; i++) {
+    photos.push({
+      title: 'Edit ' + i,
+      // REPLACE: raw (before) image for pair i
+      before: 'https://picsum.photos/seed/raw' + i + '/800/600',
+      // REPLACE: edited (after) image for pair i
+      after: 'https://picsum.photos/seed/edit' + i + '/800/600'
+    });
+  }
+
+  /* Builds one accessible comparison slider (a native range input drives both mouse/touch and arrow keys) */
+  function makeSlider(p, lazy) {
+    var box = document.createElement('div');
+    box.className = 'cmp';
+    box.innerHTML =
+      '<img class="after" src="' + p.after + '" alt="' + p.title + ' after editing"' + (lazy ? ' loading="lazy"' : '') + ' draggable="false">' +
+      '<img class="before" src="' + p.before + '" alt="' + p.title + ' before editing (raw)"' + (lazy ? ' loading="lazy"' : '') + ' draggable="false">' +
+      '<span class="badge b">Before</span><span class="badge a">After</span>' +
+      '<span class="line"></span><span class="knob" aria-hidden="true">&#8596;</span>' +
+      '<input type="range" min="0" max="100" step="1" value="50" aria-label="Reveal ' + p.title + ': drag to compare before and after">';
+    var input = box.querySelector('input');
+    function set() { box.style.setProperty('--pos', input.value + '%'); }
+    input.addEventListener('input', set);
+    // Arrow keys move in bigger steps for comfort
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        var v = +input.value + (e.key === 'ArrowRight' ? 5 : -5);
+        input.value = Math.max(0, Math.min(100, v)); set();
+      }
+    });
+    set();
+    return box;
+  }
+
+  // Featured teaser (reuses pair 1; REPLACE with your best before/after)
+  document.getElementById('featured').appendChild(makeSlider({title:'Featured edit', before: photos[0].before, after: photos[0].after}, false));
+
+  // Portfolio grid
+  var grid = document.getElementById('grid');
+  photos.forEach(function(p){
+    var fig = document.createElement('figure');
+    fig.appendChild(makeSlider(p, true));
+    var cap = document.createElement('figcaption');
+    cap.textContent = p.title;
+    fig.appendChild(cap);
+    grid.appendChild(fig);
+  });
+
+  /* Theme toggle with persistence */
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  /* Mobile menu */
+  var nav = document.getElementById('nav'), mb = document.getElementById('menuBtn');
+  function closeMenu(){ nav.classList.remove('open'); mb.setAttribute('aria-expanded','false'); mb.setAttribute('aria-label','Open menu'); }
+  mb.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    mb.setAttribute('aria-expanded', open); mb.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  nav.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeMenu(); });
+
+  /* Demo contact form */
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Thanks! This demo form is not connected.');
+  });
+
+  /* ===== Deterrents (not absolute protection) ===== */
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart', function(e){ if (e.target.tagName === 'IMG') e.preventDefault(); });
+  document.addEventListener('keydown', function(e){
+    var k = e.key.toLowerCase(), mod = e.ctrlKey || e.metaKey;
+    if (e.key === 'F12' ||
+        (mod && e.shiftKey && (k === 'i' || k === 'j' || k === 'c')) ||
+        (e.metaKey && e.altKey && (k === 'i' || k === 'j' || k === 'c')) ||
+        (mod && k === 'u')) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+</body>
+</html>
